@@ -22,7 +22,3 @@ Experience the platform: [https://caresyncai.pythonanywhere.com/](https://caresy
 
 - **Frontend**: HTML , CSS & JavaScript.
 - **Backend**: Django using Python.
-
-### 📂 Repositories
-
-- **Github**: [GitLab Repository]([https://github.com/venkat-2811/CareSync](https://github.com/venkat-2811/CareSync))
