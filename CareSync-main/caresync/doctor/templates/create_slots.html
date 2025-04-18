@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.create-slots-container {
+    background: rgba(255, 255, 255, 0.7); /* Increased transparency */
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 120px;
+    backdrop-filter: blur(8px); /* Adds a blur effect to the background */
+}
+
+
+.create-slots-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.create-slots-form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.create-slots-form th, .create-slots-form td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.create-slots-form th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+
+.create-slots-form input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.button-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+}
+
+.button-group button:nth-child(2) { /* Select All Button */
+    background-color: #28a745;
+}
+
+.button-group button:nth-child(2):hover {
+    background-color: #218838;
+}
+
+.button-group button:nth-child(3) { /* Deselect All Button */
+    background-color: #dc3545;
+}
+
+.button-group button:nth-child(3):hover {
+    background-color: #c82333;
+}
+.bg-image {
+    position: absolute;
+    width: 37vw; /* Adjusts based on viewport */
+    height: auto;
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: -1;
+}
+
+/* Tilted and Positioned at Corners */
+.bg-image.top-left {
+    top: 1%;
+    left: 0; /* Ensures it stays within screen */
+    transform: rotate(-15deg);
+}
+
+.bg-image.top-right {
+    top: -1%;
+    right: 0; /* Keeps it inside the screen */
+    transform: rotate(10deg);
+}
+
+.bg-image.bottom-left {
+    bottom: -40%;
+    left: 0;
+    transform: rotate(12deg);
+}
+
+.bg-image.bottom-right {
+    bottom: -40%;
+    right: 0;
+    transform: rotate(-15deg);
+}
+
+</style>
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+<div class="create-slots-container">
+    <h2>Create Slots</h2>
+    <form method="post" action="{% url 'save_slots' %}" class="create-slots-form">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Available</th>
+            </tr>
+            {% for slot in slots %}
+            <tr>
+                <td>{{ slot.start_time|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ slot.end_time|date:"Y-m-d H:i:s" }}</td>
+                <td>
+                    <input type="checkbox" name="available_slots" value="{{ slot.start_time|date:'Y-m-d H:i:s' }}|{{ slot.end_time|date:'Y-m-d H:i:s' }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="button-group">
+            <button type="submit">Save Slots</button>
+            <button type="button" onclick="checkAll()">Select All</button>
+            <button type="button" onclick="uncheckAll()">Deselect All</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function checkAll() {
+        document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = true);
+    }
+    function uncheckAll() {
+        document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    }
+</script>
+{% endblock %}

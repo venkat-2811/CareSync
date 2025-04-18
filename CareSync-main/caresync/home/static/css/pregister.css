@@ -1,0 +1,136 @@
+/* Register Page Styling (CareSync Theme) */
+.register-container {
+    max-width: 500px; /* Increased width */
+    margin: 120px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.register-container h2 {
+    font-family: 'Playfair Display', serif;
+    color: #1E3A8A; /* Dark Blue */
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* Form Styling */
+.register-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input Fields */
+.register-container input {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid #B0BEC5;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus Effect for Input Fields */
+.register-container input:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    outline: none;
+}
+
+/* Button */
+.register-container button {
+    background: #2563EB; /* Bright Blue */
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+
+/* Hover Effect for Button */
+.register-container button:hover {
+    background: #1E40AF; /* Darker Blue */
+    transform: translateY(-2px);
+}
+
+/* Active Button Effect */
+.register-container button:active {
+    transform: translateY(1px);
+}
+
+/* Login Link */
+.register-container p {
+    margin-top: 15px;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    color: #374151;
+}
+
+.register-container a {
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register-container a:hover {
+    text-decoration: underline;
+    color: #1E40AF;
+}
+
+/* Background Images */
+.bg-image {
+    position: absolute;
+    width: 37vw;
+    height: auto;
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: -1;
+}
+
+/* Tilted and Positioned at Corners */
+.bg-image.top-left {
+    top: 1%;
+    left: 0;
+    transform: rotate(-15deg);
+}
+
+.bg-image.top-right {
+    top: -1%;
+    right: 0;
+    transform: rotate(10deg);
+}
+
+.bg-image.bottom-left {
+    bottom: -80%;
+    left: 0;
+    transform: rotate(12deg);
+}
+
+.bg-image.bottom-right {
+    bottom: -80%;
+    right: 0;
+    transform: rotate(-15deg);
+}
+

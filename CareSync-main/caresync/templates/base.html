@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareSync</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="{% static 'images/c-logo.png' %}">
+
+
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="spinner"></div>
+    </div>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/c-logo.png' %}" alt="CareSync Logo">
+    </div>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="#">About</a></li>
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.doctor %}
+                <!-- Doctor-Specific Links -->
+                <li><a href="#">View Appointments</a></li>
+            {% else %}
+                <li><a href="{% url 'reports:folder_list' %}">View Report</a></li>
+                <li><a href="{% url 'book_appointment' %}">Book Appointment</a></li>
+                <li><a href="{% url 'booking_details' %}">My Bookings</a></li>
+                
+                
+            {% endif %}
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login/Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-section">
+            <div class="f-logo">
+                <img src="{% static 'images/c-logo.png' %}" alt="CareSync Logo">
+            </div>
+            <p>Your health, your reports, anytime, anywhere.</p>
+            <p>Follow Us:</p>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+
+        </div>
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li>🏠 <a href="{% url 'home' %}">Home</a></li>
+                <li>📂 <a href="#">Upload Reports</a></li>
+                <li>👀 <a href="{% url 'reports:folder_list' %}">View Reports</a></li>
+                <li>📅 <a href="#">Book Appointment</a></li>
+                <li>ℹ️ <a href="#">About Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Support & Social Media</h3>
+            <p>Need Help?</p>
+            <p>📧 Email: support@caresync.com</p>
+            <p>📞 Phone: +91 xxxxxxxxxx</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loadingScreen = document.getElementById("loading-screen");
+    
+            function showLoaderAndRedirect(url) {
+                if (loadingScreen) {
+                    loadingScreen.style.display = "flex"; // Show loader
+                    loadingScreen.style.opacity = "1";  // Ensure visibility
+                }
+                setTimeout(() => {
+                    window.location.href = url; // Redirect after 3 seconds
+                }, 3000);
+            }
+    
+            // Show loader when clicking any link
+            document.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", function (event) {
+                    if (link.target === "_blank" || link.href.startsWith("javascript:")) {
+                        return; // Ignore new tab and JavaScript links
+                    }
+                    event.preventDefault(); // Stop instant navigation
+                    showLoaderAndRedirect(link.href);
+                });
+            });
+    
+            // Show loader when submitting a form
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Stop instant submission
+                    if (loadingScreen) {
+                        loadingScreen.style.display = "flex";
+                        loadingScreen.style.opacity = "1";  
+                    }
+                    setTimeout(() => {
+                        form.submit(); // Submit after 3 seconds
+                    }, 3000);
+                });
+            });
+    
+            // Hide loading screen once page loads
+            window.onload = function () {
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = "0"; // Fade out
+                    setTimeout(() => {
+                        loadingScreen.style.display = "none";
+                    }, 500);
+                }
+            };
+    
+            // Hide loader when navigating back/forward
+            window.addEventListener("pageshow", function (event) {
+                if (event.persisted && loadingScreen) {
+                    loadingScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingScreen.style.display = "none";
+                    }, 500);
+                }
+            });
+    
+            // Detect back/forward navigation and hide loader
+            window.addEventListener("popstate", function () {
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingScreen.style.display = "none";
+                    }, 500);
+                }
+            });
+    
+            // Hide messages after 3 seconds
+            setTimeout(function () {
+                let messages = document.querySelectorAll(".messages .alert");
+                messages.forEach(function (message) {
+                    message.style.opacity = "0";
+                    setTimeout(() => message.remove(), 500); // Remove from DOM after fade-out
+                });
+            }, 3000);
+        });
+    </script>
+    
+</body>
+
+</html>

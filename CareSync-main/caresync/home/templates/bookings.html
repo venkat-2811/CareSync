@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    .container {
+    max-width: 1000px;
+    margin: 0px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 120px;
+    max-height: 120px;
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    left: 200px;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.booking-table th, 
+.booking-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.booking-table th {
+    background: #007bff;
+    color: white;
+}
+
+.no-booking {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+}
+.button-container {
+    text-align: center;
+    margin: 300px 0px;  /* Adjust spacing */
+}
+
+.b_btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    left: 200px;
+}
+
+.b_btn:hover {
+    background: #0056b3;
+}
+
+</style>
+<div class="container">
+    <h2 class="heading">My Appointments</h2>
+    <div class="button-container">
+        <a href="{% url 'book_appointment' %}" class="b_btn">Book Appointment</a>
+    </div>
+    
+    <table class="booking-table">
+        <tr>
+            <th>Doctor</th>
+            <th>Slot Time</th>
+            <th>Amount</th>
+            <th>Payment ID</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.doctor.user.username }}</td>  {# doctor is linked directly to CustomUser #}
+            <td>{{ booking.slot.start_time }}</td>
+            <td>₹{{ booking.amount }}</td>
+            <td>{{ booking.payment_id }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="no-booking">No appointments found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

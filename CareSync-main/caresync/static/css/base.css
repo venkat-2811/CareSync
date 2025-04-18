@@ -1,0 +1,274 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
+
+/* Root Variables */
+:root {
+    --primary-color: #A3B7FB; /* Light Blue shade from navbar */
+    --secondary-color: #1C2D5C; /* Dark Blue for footer background */
+    --text-color: #000000; /* Black for main text */
+    --light-text: #ffffff; /* White for contrast text */
+    --accent-color: #5C7AEA; /* Button & link highlights */
+    --hover-color: #4A69C6; /* Slightly darker for hover effect */
+    --button-bg: #5C7AEA; /* Button background */
+    --button-hover: #4A69C6; /* Button hover */
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #EEF1FF;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.messages {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 1000;
+    text-align: center;
+}
+
+.alert {
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Success and Error Styles */
+.alert-success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.alert-error {
+    background-color: #F44336;
+    color: white;
+}
+
+/* Add Hover Effect */
+.alert:hover {
+    opacity: 1 !important;
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Auto-hide after 3 seconds */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.alert {
+    animation: fadeOut 0.5s ease-in-out 3s forwards;
+}
+
+
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background: var(--primary-color);
+    border-radius: 30px; /* Optional, remove if you want a full-width navbar */
+    height: 50px;
+    margin: 0; /* Removes the gap around navbar */
+    width: calc(90% - 20px); /* Adjusts width to fit inside */
+    position: fixed; /* Makes it stay on top */
+    top: 10px; /* Keeps the small gap at the top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensures it's above everything */
+    transition: top 0.3s ease; /* Smooth hide/show effect */
+}
+
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 60px;
+    max-width: 180px;
+    object-fit: contain;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links li {
+    display: inline;
+}
+
+.navbar .nav-links a {
+    text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.navbar .nav-links a:hover {
+    background: var(--hover-color);
+    color: var(--light-text);
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--light-text);
+    background: var(--button-bg);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: var(--button-hover);
+}
+
+
+
+/* Profile Page Styles */
+.container {
+    min-height: calc(100vh - 60px - 200px); /* Account for navbar and footer */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a192f 100%);
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Footer */
+.footer {
+    background: var(--secondary-color);
+    color: var(--light-text);
+    padding: 30px 50px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
+}
+
+.footer.visible {
+    transform: translateY(0);
+}
+
+.footer-section {
+    flex: 1;
+}
+
+.footer-section h3 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 8px 0;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: var(--light-text);
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+}
+
+.f-logo img{
+    height: 80px;
+    background-color: white;
+    border-radius: 10px;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: var(--accent-color);
+    color: var(--light-text);
+    border-radius: 50%;
+    font-size: 18px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    background: var(--hover-color);
+    transform: scale(1.1);
+}
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #1E3A8A; /* CareSync Blue */
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

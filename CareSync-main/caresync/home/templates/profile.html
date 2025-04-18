@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@400;700&display=swap"
+    rel="stylesheet">
+
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+<div class="user-dashboard">
+    <div class="info-card">
+        <h2 class="card-title">My Profile</h2>
+        {% if user.doctor and user.doctor.profile_picture %}    
+        <div class="profile-pic-container">
+            <img src="{{ user.doctor.profile_picture.url }}" alt="Doctor Profile Picture" class="profile-pic">
+        </div>
+        {% endif %}
+
+        <div class="info-row">
+            <label class="info-label">Username</label>
+            <div class="info-value">
+                {{ user.username }}
+            </div>
+        </div>
+
+        <div class="info-row">
+            <label class="info-label">Email Address</label>
+            <div class="info-value">
+                {{ user.email }}
+            </div>
+        </div>
+
+        <div class="info-row">
+            <label class="info-label">Phone Number</label>
+            <div class="info-value">
+                {{ user.phone }}
+            </div>
+        </div>
+
+        <div class="info-row">
+            <label class="info-label">Member Since</label>
+            <div class="info-value">
+                {{ user.date_joined|date:'F d, Y' }}
+            </div>
+        </div>
+        <h2 class="card-title">My Folders</h2>
+        <table class="folder-list-table">
+            <thead>
+                <tr>
+                    <th>Folder Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for folder in folders %}
+                <tr>
+                    <td><a href="{% url 'reports:folder_detail' folder.id %}" class="folder-list-link">{{ folder.name }}</a></td>
+                    <td>
+                        <a href="{% url 'reports:folder_delete' folder.id %}" class="folder-list-link">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No folders yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="action-area">
+            <a href="{% url 'home' %}" class="action-btn">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-pic-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #2563EB;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+    /* Background Images */
+    .bg-image {
+        position: absolute;
+        width: 37vw;
+        height: auto;
+        opacity: 0.4;
+        transform-origin: center;
+        z-index: -1;
+    }
+
+    .bg-image.top-left {
+        top: 1%;
+        left: 0;
+        transform: rotate(-15deg);
+    }
+
+    .bg-image.top-right {
+        top: -1%;
+        right: 0;
+        transform: rotate(10deg);
+    }
+
+    .bg-image.bottom-left {
+        bottom: -30%;
+        left: 0;
+        transform: rotate(12deg);
+    }
+
+    .bg-image.bottom-right {
+        bottom: -30%;
+        right: 0;
+        transform: rotate(-15deg);
+    }
+
+    .user-dashboard {
+        width: 100%;
+        min-height: 100vh;
+        padding: 40px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .info-card {
+        width: 100%;
+        max-width: 1000px;
+        margin: 80px auto;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        text-align: left;
+        animation: slideDown 1s ease-in-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card-title {
+        font-family: 'Playfair Display', serif;
+        color: #1E3A8A;
+        margin-bottom: 30px;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .info-row {
+        margin-bottom: 25px;
+    }
+
+    .info-label {
+        display: block;
+        color: #374151;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-family: 'Lato', sans-serif;
+    }
+
+    .info-value {
+        width: 98%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: 'Lato', sans-serif;
+        color: #1F2937;
+    }
+
+    .action-area {
+        margin-top: 35px;
+        text-align: center;
+    }
+
+    .action-btn {
+        display: inline-block;
+        background: #2563EB;
+        color: white;
+        font-size: 16px;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .action-btn:hover {
+        background: #1E40AF;
+        transform: translateY(-2px);
+    }
+
+    .action-btn:active {
+        transform: translateY(1px);
+    }
+    .folder-list-table {
+        border: 1px solid #E5E7EB;
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    }
+
+    .folder-list-table th,
+    .folder-list-table td {
+        border: 1px solid #E5E7EB;
+        padding: 12px 15px;
+        text-align: left;
+        text-decoration: none;
+    }
+
+    .folder-list-table th {
+        background: rgba(255, 255, 255, 0.8);
+        font-weight: 600;
+        font-family: 'Lato', sans-serif;
+        color: #1F2937;
+        text-decoration: none;
+    }
+
+    .folder-list-table td {
+        color: #1F2937;
+        text-decoration: none;
+    }
+
+    .folder-list-table td a {
+        text-decoration: none;
+    }
+
+    .folder-list-table td a:hover  {
+        text-decoration: underline;
+    }
+
+    .folder-list-table td a:active {
+        transform: translateY(1px);
+    }
+
+    .folder-list-table td a:focus {
+        text-decoration: underline;
+    }
+
+    .folder-list-table td a:active {
+        transform: translateY(1px);
+    }
+    .folder-list-table td a:focus {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 1024px) {
+        .info-card {
+            max-width: 90%;
+            margin: 60px auto;
+            padding: 30px;
+        }
+
+        .bg-image {
+            width: 50vw;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .user-dashboard {
+            padding: 20px;
+        }
+
+        .info-card {
+            margin: 40px auto;
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        .info-value {
+            font-size: 14px;
+        }
+
+        .bg-image {
+            width: 70vw;
+        }
+    }
+</style>
+{% endblock %}

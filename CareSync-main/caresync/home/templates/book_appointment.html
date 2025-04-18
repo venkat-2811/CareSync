@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Heading Styles */
+    .heading,
+    .subheading {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    /* Search Bar */
+    .search-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .search-button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    .search-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Table Styles */
+    .doctor-table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-header,
+    .table-data {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .table-header {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .table-row:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* View Slots Link */
+    .view-slots-link {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .view-slots-link:hover {
+        text-decoration: underline;
+    }
+
+    /* No Doctors Found Message */
+    .no-results {
+        text-align: center;
+        font-size: 18px;
+        color: #555;
+        margin-top: 20px;
+    }
+    .profile-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+}
+</style>
+<h2 class="heading">Book an Appointment</h2>
+
+<!-- Search Bar -->
+<form method="GET" action="{% url 'book_appointment' %}" class="search-form">
+    <input type="text" name="q" placeholder="Enter disease or specialization" value="{{ query }}" class="search-input">
+    <button type="submit" class="search-button">Search</button>
+</form>
+
+<!-- Display Search Results -->
+{% if doctors %}
+<h3 class="subheading">Available Doctors</h3>
+<table class="doctor-table">
+    <tr>
+        <th class="table-header">Profile Photo</th>
+
+        <th class="table-header">Name</th>
+        <th class="table-header">Specialization</th>
+        <th class="table-header">Action</th>
+    </tr>
+    {% for doctor in doctors %}
+    <tr class="table-row">
+        <td class="table-data">
+            {% if doctor.profile_picture %}
+            <img src="{{ doctor.profile_picture.url }}" alt="Profile Photo" class="profile-photo">
+            {% else %}
+            <img src="/static/default-profile.png" alt="Default Profile Photo" class="profile-photo">
+            {% endif %}
+        </td>
+        <td class="table-data">{{ doctor.user.username }}</td>
+        <td class="table-data">{{ doctor.specialization }}</td>
+        <td class="table-data">
+            <a href="{% url 'view_doctor_slots' doctor.id %}" class="view-slots-link">View Slots</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% elif query %}
+<p class="no-results">No doctors found for "{{ query }}".</p>
+{% endif %}
+{% endblock %}

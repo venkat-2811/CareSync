@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .folder-create-body {
+        font-family: 'Lato', sans-serif;
+        margin-top: 60px;
+        background: #EEF1FF;
+        color: #000000;
+    }
+    .folder-create-title {
+        margin-bottom: 20px;
+        color: #1C2D5C;
+    }
+    .folder-create-form p {
+        margin-bottom: 10px;
+    }
+    .folder-create-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .folder-create-input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .folder-create-button[type="submit"] {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background: #5C7AEA;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .folder-create-button[type="submit"]:hover {
+        background: #4A69C6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<div class="folder-create-body">
+    <h1 class="folder-create-title">Create New Report Folder</h1>
+    <form method="post" class="folder-create-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="folder-create-button">Create</button>
+    </form>
+</div>
+{% endblock %}

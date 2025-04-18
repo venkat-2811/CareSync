@@ -1,0 +1,117 @@
+/* Make sure container doesn’t exceed viewport width */
+.home-content {
+    max-width: 100vw; /* Prevents exceeding full width */
+    
+}
+
+/* Full-Screen Background Images */
+.bg-image {
+    position: absolute;
+    width: 37vw; /* Adjusts based on viewport */
+    height: auto;
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: -1;
+}
+
+/* Tilted and Positioned at Corners */
+.bg-image.top-left {
+    top: 1%;
+    left: 0; /* Ensures it stays within screen */
+    transform: rotate(-15deg);
+}
+
+.bg-image.top-right {
+    top: -1%;
+    right: 0; /* Keeps it inside the screen */
+    transform: rotate(10deg);
+}
+
+.bg-image.bottom-left {
+    bottom: -30%;
+    left: 0;
+    transform: rotate(12deg);
+}
+
+.bg-image.bottom-right {
+    bottom: -30%;
+    right: 0;
+    transform: rotate(-15deg);
+}
+
+
+
+/* Ensuring the text and buttons stay centered */
+.center-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    padding: 120px;
+    margin-top: 80px;
+}
+
+/* Styling for title and description */
+.home-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.home-description {
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    color: rgb(78, 78, 78);
+    margin-bottom: 30px;
+}
+
+/* Button Styling */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.upload-btn, .book-appointment-btn {
+    padding: 16px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    color: var(--light-text);
+    background: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.upload-btn:hover, .book-appointment-btn:hover {
+    background: var(--hover-color);
+    color: var(--light-text);
+    text-decoration: none;
+}
+
+.view-appointments-btn {
+    padding: 16px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    color: var(--light-text);
+    background: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.view-appointments-btn:hover {
+    background: var(--hover-color);
+    color: var(--light-text);
+    text-decoration: none;
+}

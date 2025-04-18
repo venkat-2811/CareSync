@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    .payment-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 120px;
+}
+
+.payment-heading {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.payment-info {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.payment-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.payment-btn:hover {
+    background-color: #218838;
+}
+.bg-image {
+        position: absolute;
+        width: 37vw;
+        /* Adjusts based on viewport */
+        height: auto;
+        opacity: 0.4;
+        transform-origin: center;
+        z-index: -1;
+    }
+
+    /* Tilted and Positioned at Corners */
+    .bg-image.top-left {
+        top: 1%;
+        left: 0;
+        /* Ensures it stays within screen */
+        transform: rotate(-15deg);
+    }
+
+    .bg-image.top-right {
+        top: -1%;
+        right: 0;
+        /* Keeps it inside the screen */
+        transform: rotate(10deg);
+    }
+
+    .bg-image.bottom-left {
+        bottom: -10%;
+        left: 0;
+        transform: rotate(12deg);
+    }
+
+    .bg-image.bottom-right {
+        bottom: -10%;
+        right: 0;
+        transform: rotate(-15deg);
+    }
+
+</style>
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+    <div class="payment-container">
+        <h2 class="payment-heading">Confirm Payment</h2>
+        <p class="payment-info"><strong>Doctor:</strong> {{ slot.doctor.username }}</p>
+        <p class="payment-info"><strong>Slot Time:</strong> {{ slot.start_time }}</p>
+        <p class="payment-info"><strong>Amount:</strong> ₹{{ amount }}</p>
+        
+        <button id="pay-btn" class="payment-btn">Pay Now</button>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ amount|floatformat:2 }}" * 100,
+            "currency": "INR",
+            "name": "CareSync",
+            "description": "Doctor Appointment",
+            "order_id": "{{ order_id }}",
+            "handler": function (response) {
+                window.location.href = "/payment-success/?payment_id=" + response.razorpay_payment_id + "&slot_id={{ slot.id }}";
+            }
+        };
+        var rzp = new Razorpay(options);
+        document.getElementById("pay-btn").onclick = function () {
+            rzp.open();
+        };
+    </script>
+{% endblock %}

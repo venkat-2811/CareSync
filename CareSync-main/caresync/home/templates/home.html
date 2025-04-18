@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<!-- Background Images -->
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+<section class="home-content">
+    <div class="center-content">
+        <h1 class="home-title">Your Health, Our Priority</h1>
+        <p class="home-description">
+            Seamlessly manage your reports, book appointments, and take control of your healthcare with CareSync.
+        </p>
+
+        <div class="button-group">
+            {% if request.user.is_authenticated %}
+                {% if request.user.doctor %}
+                    <!-- Doctor sees "View Appointments" -->
+                    <a href="{% url 'view_appointments' %}" class="upload-btn">View Appointments</a>
+                    <a href="{% url 'generate_slots' %}" class="upload-btn">Create Slots</a>
+                {% else %}
+                    <!-- Regular users see "Upload Report" and "Book Appointment" -->
+                    <a href="{% url 'reports:folder_list' %}" class="upload-btn">Upload Report</a>
+                    <a href="{% url 'book_appointment' %}" class="book-appointment-btn">Book Appointment</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}" class="upload-btn">Login/Register</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

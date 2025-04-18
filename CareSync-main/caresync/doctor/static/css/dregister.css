@@ -1,0 +1,124 @@
+.registration-container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    background: #f5f5f5; /* Light gray background */
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 120px;
+    margin-bottom: 10px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.registration-form h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333; /* Dark text */
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.submit-button {
+    width: 40%;
+    padding: 10px;
+    background-color: #007bff; /* Primary color */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+.bg-image {
+    position: absolute;
+    width: 37vw; /* Adjusts based on viewport */
+    height: auto;
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: -1;
+}
+
+/* Tilted and Positioned at Corners */
+.bg-image.top-left {
+    top: 1%;
+    left: 0; /* Ensures it stays within screen */
+    transform: rotate(-15deg);
+}
+
+.bg-image.top-right {
+    top: 1%;
+    right: 0; /* Keeps it inside the screen */
+    transform: rotate(10deg);
+}
+
+.bg-image.bottom-left {
+    bottom: -100%;
+    left: 0;
+    transform: rotate(12deg);
+}
+
+.bg-image.bottom-right {
+    bottom: -100%;
+    right: 0;
+    transform: rotate(-15deg);
+}
+

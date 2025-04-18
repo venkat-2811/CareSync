@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/pregister.css' %}">
+
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+<div class="register-container">
+    <h2>Register</h2>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <button type="button" class="clear-btn" onclick="clearForm()">Clear Form</button>
+
+    <form method="POST" id="registerForm">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.phone.id_for_label }}">Phone:</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="error-message">{{ form.phone.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Password:</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="error-message">{{ form.password1.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="error-message">{{ form.password2.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    <p>Doctor Register? <a href="{% url 'doctor_register' %}">Register here</a></p>
+</div>
+
+<script>
+    function clearForm() {
+        document.getElementById("registerForm").reset();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let phoneInput = document.querySelector("input[name='phone']");
+
+        if (phoneInput) {
+            phoneInput.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, ""); // Remove non-numeric characters
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10); // Restrict to 10 digits
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

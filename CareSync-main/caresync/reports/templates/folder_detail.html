@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .folder-detail-title {
+        margin-bottom: 20px;
+    }
+
+    .folder-detail-upload-block {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .folder-detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: rgba(255,255,255,0.7);
+        color: #000000;
+    }
+
+    .folder-detail-table th, .folder-detail-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .folder-detail-table th {
+        background-color: #f2f2f2;
+    }
+
+    .folder-detail-button {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background: #5C7AEA;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .folder-detail-button:hover {
+        background: #4A69C6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .folder-detail-link {
+        text-decoration: none;
+        color: #5C7AEA;
+        transition: all 0.3s ease;
+    }
+
+    .folder-detail-link:hover {
+        text-decoration: underline;
+        color: #4A69C6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<h1 class="folder-detail-title">{{ folder.name }}</h1>
+
+<div class="folder-detail-upload-block">
+    <form method="post" enctype="multipart/form-data" class="folder-detail-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="folder-detail-button">Upload Report</button>
+    </form>
+</div>
+
+<table class="folder-detail-table">
+    <thead>
+        <tr>
+            <th>Report Title</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for report in reports %}
+        <tr>
+            <td><a href="{{ report.file.url }}" target="_blank" class="folder-detail-link">{{ report.title }}</a></td>
+            <td>
+                <a href="{% url 'reports:report_analysis' report.id %}" class="folder-detail-link">Analysis</a>|
+                <a href="{% url 'reports:report_delete' report.id %}" class="folder-detail-link">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No reports in this folder.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'reports:folder_list' %}" class="folder-detail-button">Back to Folders</a>
+{% endblock %}

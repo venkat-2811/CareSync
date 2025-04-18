@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+    .doctor-slots-container {
+        background: rgba(255, 255, 255, 0.8);
+        /* Light translucent background */
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        backdrop-filter: blur(6px);
+        margin-top: 120px;
+        
+    }
+
+    .doctor-slots-container h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .doctor-slots-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .doctor-slots-table th,
+    .doctor-slots-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .doctor-slots-table th {
+        background-color: #f4f4f4;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .doctor-slots-table td {
+        background-color: #fff;
+    }
+
+    .cancel-form {
+        display: inline-block;
+    }
+
+    .cancel-button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .cancel-button:hover {
+        background-color: #c82333;
+    }
+
+    .unavailable-text {
+        color: gray;
+        font-weight: bold;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin: 15px auto;
+        max-width: 500px;
+    }
+
+    .alert-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .alert-error {
+        background-color: #dc3545;
+        color: white;
+    }
+    .bg-image {
+    position: absolute;
+    width: 37vw; /* Adjusts based on viewport */
+    height: auto;
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: -1;
+}
+
+/* Tilted and Positioned at Corners */
+.bg-image.top-left {
+    top: 1%;
+    left: 0; /* Ensures it stays within screen */
+    transform: rotate(-15deg);
+}
+
+.bg-image.top-right {
+    top: -1%;
+    right: 0; /* Keeps it inside the screen */
+    transform: rotate(10deg);
+}
+
+.bg-image.bottom-left {
+    bottom: -50%;
+    left: 0;
+    transform: rotate(12deg);
+}
+
+.bg-image.bottom-right {
+    bottom: -50%;
+    right: 0;
+    transform: rotate(-15deg);
+}
+</style>
+<img src="{% static 'images/g-1.png' %}" class="bg-image top-left" alt="Background 1">
+<img src="{% static 'images/g-2.png' %}" class="bg-image top-right" alt="Background 2">
+<img src="{% static 'images/g-3.png' %}" class="bg-image bottom-left" alt="Background 3">
+<img src="{% static 'images/g-4.png' %}" class="bg-image bottom-right" alt="Background 4">
+
+<div class="doctor-slots-container">
+    <h2>Doctor Slots</h2>
+    <table class="doctor-slots-table">
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for slot in slots %}
+        <tr>
+            <td>{{ slot.start_time }}</td>
+            <td>{{ slot.end_time }}</td>
+            <td>{{ slot.status }}</td>
+            <td>
+                {% if slot.status == "available" %}
+                <form method="post" action="{% url 'cancel_slot' slot.id %}" class="cancel-form">
+                    {% csrf_token %}
+                    <button type="submit" class="cancel-button">Cancel</button>
+                </form>
+                {% else %}
+                <span class="unavailable-text">Unavailable</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
